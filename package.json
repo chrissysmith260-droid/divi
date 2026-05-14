@@ -1,0 +1,24 @@
+{
+  "name": "divi",
+  "version": "1.0.0",
+  "description": "A sermon generation and bible study app for clergy and lay persons",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": ["sermon", "bible", "religion", "torah", "tanakh", "tarot", "paganism"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "ejs": "^3.1.9",
+    "sqlite3": "^5.1.6",
+    "express-session": "^1.17.3",
+    "bcrypt": "^5.1.1",
+    "connect-sqlite3": "^0.9.13"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

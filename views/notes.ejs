@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes - Divine Insights</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Notes</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/sermon-generator">Sermon Generator</a>
+        <a href="/bible-viewer">Bible Viewer</a>
+        <a href="/my-sermons">My Sermons</a>
+        <% if (user && user.isPremium) { %>
+            <a href="/tarot">Tarot Guide</a>
+            <a href="/ai-tools">AI Tools</a>
+        <% } %>
+    </nav>
+    <main class="slide-up">
+        <form action="/add-note" method="POST">
+            <label for="title">Note Title:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" required></textarea>
+
+            <button type="submit">Add Note</button>
+        </form>
+        <h2>Your Notes</h2>
+        <% if (notes.length === 0) { %>
+            <p>No notes yet. Add one above!</p>
+        <% } else { %>
+            <ul class="note-list">
+                <% notes.forEach(note => { %>
+                    <li>
+                        <h3><%= note.title %></h3>
+                        <p><%= note.content %></p>
+                        <small>Created: <%= new Date(note.created_at).toLocaleDateString() %></small>
+                    </li>
+                <% }); %>
+            </ul>
+        <% } %>
+    </main>
+</body>
+</html>

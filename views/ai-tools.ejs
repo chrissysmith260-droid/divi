@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools - Divine Insights</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>AI Tools</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/sermon-generator">Sermon Generator</a>
+        <a href="/bible-viewer">Bible Viewer</a>
+        <a href="/my-sermons">My Sermons</a>
+        <a href="/notes">Notes</a>
+        <a href="/tarot">Tarot Guide</a>
+    </nav>
+    <main class="slide-up">
+        <p>Use AI to enhance your spiritual content creation.</p>
+        <form action="/ai-generate" method="POST">
+            <label for="prompt">Enter your prompt for AI generation:</label>
+            <textarea id="prompt" name="prompt" placeholder="e.g., Generate a meditation script on forgiveness" required></textarea>
+            <button type="submit">Generate</button>
+        </form>
+    </main>
+</body>
+</html>

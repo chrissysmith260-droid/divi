@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade to Premium - Divine Insights</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Upgrade to Premium</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <% if (user) { %>
+            <a href="/sermon-generator">Sermon Generator</a>
+            <a href="/bible-viewer">Bible Viewer</a>
+        <% } %>
+    </nav>
+    <main class="slide-up">
+        <% if (typeof message !== 'undefined') { %>
+            <p style="color: red;"><%= message %></p>
+        <% } %>
+        <h2>Premium Membership Benefits</h2>
+        <ul>
+            <li>Advanced sermon editing tools</li>
+            <li>AI-powered content generation</li>
+            <li>Complete Tarot guide with all 78 cards</li>
+            <li>Extended religious texts library</li>
+            <li>Priority support</li>
+        </ul>
+        <p>Upgrade now for $9.99/month!</p>
+        <button onclick="alert('Payment integration would go here - Stripe, PayPal, etc.')">Upgrade Now</button>
+        <p><em>Note: This is a placeholder. In a real app, integrate with a payment processor.</em></p>
+    </main>
+</body>
+</html>

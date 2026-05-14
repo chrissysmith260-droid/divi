@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Verse - Divine Insights</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Large Print Bible Verse</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/sermon-generator">Sermon Generator</a>
+        <a href="/bible-viewer">Bible Viewer</a>
+        <a href="/my-sermons">My Sermons</a>
+        <a href="/notes">Notes</a>
+        <% if (user && user.isPremium) { %>
+            <a href="/tarot">Tarot Guide</a>
+            <a href="/ai-tools">AI Tools</a>
+        <% } %>
+    </nav>
+    <main>
+        <div class="large-print">
+            <p><strong><%= religion.charAt(0).toUpperCase() + religion.slice(1) %> - <%= book.charAt(0).toUpperCase() + book.slice(1) %> <%= chapter %>:<%= verse %></strong></p>
+            <p class="verse-text"><%= text %></p>
+        </div>
+    </main>
+</body>
+</html>

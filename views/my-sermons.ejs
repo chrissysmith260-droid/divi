@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Sermons - Divine Insights</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Sermons</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/sermon-generator">New Sermon</a>
+        <a href="/bible-viewer">Bible Viewer</a>
+        <a href="/notes">Notes</a>
+        <% if (user && user.isPremium) { %>
+            <a href="/tarot">Tarot Guide</a>
+            <a href="/ai-tools">AI Tools</a>
+        <% } %>
+    </nav>
+    <main class="slide-up">
+        <% if (sermons.length === 0) { %>
+            <p>You haven't saved any sermons yet. <a href="/sermon-generator">Generate one now!</a></p>
+        <% } else { %>
+            <ul class="sermon-list">
+                <% sermons.forEach(sermon => { %>
+                    <li>
+                        <h3><%= sermon.title %></h3>
+                        <p>Created: <%= new Date(sermon.created_at).toLocaleDateString() %></p>
+                        <a href="/edit-sermon/<%= sermon.id %>">Edit</a>
+                    </li>
+                <% }); %>
+            </ul>
+        <% } %>
+    </main>
+</body>
+</html>

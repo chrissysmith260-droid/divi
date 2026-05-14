@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermon Generator - Divine Insights</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sermon Generator</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/sermon-generator">Sermon Generator</a>
+        <a href="/bible-viewer">Bible Viewer</a>
+        <a href="/my-sermons">My Sermons</a>
+        <a href="/notes">Notes</a>
+        <% if (user && user.isPremium) { %>
+            <a href="/tarot">Tarot Guide</a>
+            <a href="/ai-tools">AI Tools</a>
+        <% } %>
+    </nav>
+    <main>
+        <form action="/generate-sermon" method="POST">
+            <label for="topic">Sermon Topic:</label>
+            <input type="text" id="topic" name="topic" required>
+
+            <label for="scripture">Key Scripture:</label>
+            <input type="text" id="scripture" name="scripture" required>
+
+            <label for="audience">Audience:</label>
+            <select id="audience" name="audience">
+                <option value="congregation">Congregation</option>
+                <option value="youth">Youth</option>
+                <option value="children">Children</option>
+            </select>
+
+            <button type="submit">Generate Sermon</button>
+        </form>
+    </main>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Sermon - Divine Insights</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Generated Sermon</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/sermon-generator">New Sermon</a>
+        <a href="/bible-viewer">Bible Viewer</a>
+        <a href="/my-sermons">My Sermons</a>
+        <a href="/notes">Notes</a>
+        <% if (user && user.isPremium) { %>
+            <a href="/tarot">Tarot Guide</a>
+            <a href="/ai-tools">AI Tools</a>
+        <% } %>
+    </nav>
+    <main class="slide-up">
+        <form action="/save-sermon" method="POST">
+            <input type="hidden" name="title" value="<%= sermon.title %>">
+            <input type="hidden" name="introduction" value="<%= sermon.introduction %>">
+            <input type="hidden" name="mainPoints" value="<%= sermon.mainPoints.join('\n') %>">
+            <input type="hidden" name="conclusion" value="<%= sermon.conclusion %>">
+            <button type="submit" class="save-btn">Save Sermon</button>
+        </form>
+        <article>
+            <h2><%= sermon.title %></h2>
+            <h3>Introduction</h3>
+            <p><%= sermon.introduction %></p>
+            <h3>Main Points</h3>
+            <ol>
+                <% sermon.mainPoints.forEach(point => { %>
+                    <li><%= point %></li>
+                <% }); %>
+            </ol>
+            <h3>Conclusion</h3>
+            <p><%= sermon.conclusion %></p>
+        </article>
+        <% if (user && user.isPremium) { %>
+            <a href="/edit-sermon/<%= sermon.id || 'new' %>" class="edit-btn">Edit Sermon</a>
+        <% } %>
+    </main>
+</body>
+</html>

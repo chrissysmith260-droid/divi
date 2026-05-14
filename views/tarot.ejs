@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarot Guide - Divine Insights</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Tarot Guide</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/sermon-generator">Sermon Generator</a>
+        <a href="/bible-viewer">Bible Viewer</a>
+        <a href="/my-sermons">My Sermons</a>
+        <a href="/notes">Notes</a>
+        <a href="/ai-tools">AI Tools</a>
+    </nav>
+    <main class="slide-up">
+        <h2>Major Arcana</h2>
+        <div class="tarot-grid">
+            <% tarotCards.majorArcana.forEach(card => { %>
+                <div class="tarot-card">
+                    <h3><%= card.name %></h3>
+                    <p><%= card.meaning %></p>
+                </div>
+            <% }); %>
+        </div>
+
+        <h2>Minor Arcana - Wands</h2>
+        <div class="tarot-grid">
+            <% tarotCards.minorArcana.wands.forEach(card => { %>
+                <div class="tarot-card">
+                    <h3><%= card.name %></h3>
+                    <p><%= card.meaning %></p>
+                </div>
+            <% }); %>
+        </div>
+
+        <h2>Minor Arcana - Cups</h2>
+        <div class="tarot-grid">
+            <% tarotCards.minorArcana.cups.forEach(card => { %>
+                <div class="tarot-card">
+                    <h3><%= card.name %></h3>
+                    <p><%= card.meaning %></p>
+                </div>
+            <% }); %>
+        </div>
+
+        <h2>Minor Arcana - Swords</h2>
+        <div class="tarot-grid">
+            <% tarotCards.minorArcana.swords.forEach(card => { %>
+                <div class="tarot-card">
+                    <h3><%= card.name %></h3>
+                    <p><%= card.meaning %></p>
+                </div>
+            <% }); %>
+        </div>
+
+        <h2>Minor Arcana - Pentacles</h2>
+        <div class="tarot-grid">
+            <% tarotCards.minorArcana.pentacles.forEach(card => { %>
+                <div class="tarot-card">
+                    <h3><%= card.name %></h3>
+                    <p><%= card.meaning %></p>
+                </div>
+            <% }); %>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divine Insights - Sermon & Bible App</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header class="fade-in">
+        <h1>Divine Insights</h1>
+        <p>A tool for clergy, pastors, and lay persons to generate sermons and study sacred texts.</p>
+        <% if (user) { %>
+            <p>Welcome, User! <%= user.isPremium ? '(Premium Member)' : '(Free Member)' %></p>
+        <% } %>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <% if (user) { %>
+            <a href="/sermon-generator">Sermon Generator</a>
+            <a href="/bible-viewer">Bible Viewer</a>
+            <a href="/my-sermons">My Sermons</a>
+            <a href="/notes">Notes</a>
+            <% if (user.isPremium) { %>
+                <a href="/tarot">Tarot Guide</a>
+                <a href="/ai-tools">AI Tools</a>
+            <% } else { %>
+                <a href="/upgrade">Upgrade to Premium</a>
+            <% } %>
+            <form action="/logout" method="POST" style="display: inline;">
+                <button type="submit">Logout</button>
+            </form>
+        <% } else { %>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+            <a href="/bible-viewer">Bible Viewer</a>
+        <% } %>
+    </nav>
+    <main class="slide-up">
+        <section>
+            <h2>Welcome</h2>
+            <p>This app helps you create sermons and access sacred texts from various religions including Christianity, Judaism, Islam, and Paganism.</p>
+            <p>Features:</p>
+            <ul>
+                <li>Sermon generation with customizable topics and scriptures</li>
+                <li>Large print bible viewer for easy reading</li>
+                <li>Access to Tanakh, Torah, Quran, and Pagan texts</li>
+                <li>Personal notes and sermon library</li>
+                <li>Premium features: Tarot guides, AI tools, advanced editing</li>
+            </ul>
+            <% if (!user) { %>
+                <p><a href="/register">Register</a> or <a href="/login">login</a> to access all features!</p>
+            <% } %>
+        </section>
+    </main>
+    <audio id="background-music" loop>
+        <source src="/background.mp3" type="audio/mpeg">
+    </audio>
+    <button onclick="toggleMusic()">Toggle Background Music</button>
+    <script src="/script.js"></script>
+</body>
+</html>

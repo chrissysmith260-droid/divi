@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Sermon - Divine Insights</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Edit Sermon</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/my-sermons">My Sermons</a>
+        <a href="/bible-viewer">Bible Viewer</a>
+        <a href="/notes">Notes</a>
+        <% if (user && user.isPremium) { %>
+            <a href="/tarot">Tarot Guide</a>
+            <a href="/ai-tools">AI Tools</a>
+        <% } %>
+    </nav>
+    <main class="slide-up">
+        <form action="/update-sermon/<%= sermon.id %>" method="POST">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" value="<%= sermon.title %>" required>
+
+            <label for="introduction">Introduction:</label>
+            <textarea id="introduction" name="introduction" required><%= sermon.introduction %></textarea>
+
+            <label for="mainPoints">Main Points (one per line):</label>
+            <textarea id="mainPoints" name="mainPoints" required><%= sermon.mainPoints %></textarea>
+
+            <label for="conclusion">Conclusion:</label>
+            <textarea id="conclusion" name="conclusion" required><%= sermon.conclusion %></textarea>
+
+            <button type="submit">Update Sermon</button>
+        </form>
+    </main>
+</body>
+</html>
