@@ -298,9 +298,9 @@
         </header>
 
         <div class="tab-buttons">
-            <button class="tab-btn active" onclick="showTab('tarot')">Tarot Reading</button>
-            <button class="tab-btn" onclick="showTab('oracle')">Oracle Reading</button>
-            <button class="tab-btn" onclick="showTab('combo')">Full Divination</button>
+            <button class="tab-btn active" onclick="showTab('tarot', this)">Tarot Reading</button>
+            <button class="tab-btn" onclick="showTab('oracle', this)">Oracle Reading</button>
+            <button class="tab-btn" onclick="showTab('combo', this)">Full Divination</button>
         </div>
 
         <div class="divination-grid">
@@ -433,7 +433,7 @@
     </div>
 
     <script>
-        function showTab(tab) {
+        function showTab(tab, button) {
             // Hide all tabs
             document.getElementById('tarot-tab').style.display = 'none';
             document.getElementById('oracle-tab').style.display = 'none';
@@ -444,7 +444,9 @@
 
             // Update button styling
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (button) {
+                button.classList.add('active');
+            }
         }
 
         async function getTarotReading() {
