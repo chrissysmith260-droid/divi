@@ -8,24 +8,31 @@
 </head>
 <body>
     <header>
-        <h1>AI Tools</h1>
+        <h1>𐤃𐤉𐤅𐤉</h1>
+        <p>AI-Powered Spiritual Tools</p>
     </header>
     <nav>
         <a href="/">Home</a>
-        <a href="/sermon-generator">Sermon Generator</a>
-        <a href="/bible-viewer">Bible Viewer</a>
-        <a href="/my-sermons">My Sermons</a>
-        <a href="/notes">Notes</a>
-        <a href="/tarot">Tarot Guide</a>
+        <a href="/sermon-generator" class="nav-orange-fire">Sermon Generator</a>
+        <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
+        <a href="/my-sermons" class="nav-flame">My Sermons</a>
+        <a href="/notes" class="nav-flame">Notes</a>
+        <a href="/tarot" class="nav-flame">Tarot Guide</a>
+        <a href="/ai-tools" class="nav-flame">AI Tools</a>
+        <form action="/logout" method="POST" style="display: inline;">
+            <button type="submit" class="nav-flame">Logout</button>
+        </form>
     </nav>
     <main class="slide-up">
-        <p>Use AI to enhance your spiritual content creation.</p>
+        <h2>AI Content Generator</h2>
+        <p style="font-style: italic;">Harness artificial intelligence to enhance your spiritual content creation with advanced tools and features.</p>
         <form action="/ai-generate" method="POST">
             <label for="prompt">Enter your prompt for AI generation:</label>
-            <textarea id="prompt" name="prompt" placeholder="e.g., Generate a meditation script on forgiveness" required></textarea>
-            <button type="submit">Generate</button>
+            <textarea id="prompt" name="prompt" placeholder="e.g., Generate a meditation script on forgiveness, create study notes on grace, etc." required></textarea>
+            <button type="submit">🤖 Generate with AI</button>
         </form>
     </main>
+    <script src="/script.js"></script>
     <script type="module" src="/speed-insights-init.js"></script>
 </body>
 </html>

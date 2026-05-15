@@ -41,6 +41,15 @@ Upgrade to premium ($9.99/month) to unlock:
 - Advanced editing tools
 - Priority support
 
+## Support the Project
+
+If you enjoy using Divi and want to support continued development, you can contribute directly to the project and the developer:
+
+- CashApp: `$ChrisDSmith97`
+- Chime: `$Christina-Smith-910`
+
+Your support helps keep the app updated, improves premium features, and enables ongoing maintenance.
+
 ## Technologies
 
 - Node.js

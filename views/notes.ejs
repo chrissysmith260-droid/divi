@@ -8,32 +8,40 @@
 </head>
 <body>
     <header>
-        <h1>My Notes</h1>
+        <h1>𐤃𐤉𐤅𐤉</h1>
+        <p>Your Sacred Notes</p>
     </header>
     <nav>
         <a href="/">Home</a>
-        <a href="/sermon-generator">Sermon Generator</a>
-        <a href="/bible-viewer">Bible Viewer</a>
-        <a href="/my-sermons">My Sermons</a>
+        <a href="/sermon-generator" class="nav-orange-fire">Sermon Generator</a>
+        <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
+        <a href="/my-sermons" class="nav-flame">My Sermons</a>
+        <a href="/notes" class="nav-flame">Notes</a>
         <% if (user && user.isPremium) { %>
-            <a href="/tarot">Tarot Guide</a>
-            <a href="/ai-tools">AI Tools</a>
+            <a href="/tarot" class="nav-flame">Tarot Guide</a>
+            <a href="/ai-tools" class="nav-flame">AI Tools</a>
+        <% } else { %>
+            <a href="/upgrade" class="nav-flame">Upgrade</a>
         <% } %>
+        <form action="/logout" method="POST" style="display: inline;">
+            <button type="submit" class="nav-flame">Logout</button>
+        </form>
     </nav>
     <main class="slide-up">
+        <h2>Add New Note</h2>
         <form action="/add-note" method="POST">
             <label for="title">Note Title:</label>
-            <input type="text" id="title" name="title" required>
+            <input type="text" id="title" name="title" placeholder="Title for your note" required>
 
             <label for="content">Content:</label>
-            <textarea id="content" name="content" required></textarea>
+            <textarea id="content" name="content" placeholder="Write your thoughts, reflections, or insights here..." required></textarea>
 
-            <button type="submit">Add Note</button>
+            <button type="submit">📝 Add Note</button>
         </form>
-        <h2>Your Notes</h2>
-        <% if (notes.length === 0) { %>
+        <h2>Your Notes Library</h2>
+        <% if (notes && notes.length === 0) { %>
             <p>No notes yet. Add one above!</p>
-        <% } else { %>
+        <% } else if (notes && notes.length > 0) { %>
             <ul class="note-list">
                 <% notes.forEach(note => { %>
                     <li>
@@ -45,6 +53,7 @@
             </ul>
         <% } %>
     </main>
+    <script src="/script.js"></script>
     <script type="module" src="/speed-insights-init.js"></script>
 </body>
 </html>

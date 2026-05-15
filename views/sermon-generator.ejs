@@ -8,37 +8,54 @@
 </head>
 <body>
     <header>
-        <h1>Sermon Generator</h1>
+        <h1>𐤃𐤉𐤅𐤉</h1>
+        <p>Divine Sermon Generator</p>
     </header>
     <nav>
         <a href="/">Home</a>
-        <a href="/sermon-generator">Sermon Generator</a>
-        <a href="/bible-viewer">Bible Viewer</a>
-        <a href="/my-sermons">My Sermons</a>
-        <a href="/notes">Notes</a>
+        <a href="/sermon-generator" class="nav-orange-fire">Sermon Generator</a>
+        <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
+        <a href="/my-sermons" class="nav-flame">My Sermons</a>
+        <a href="/notes" class="nav-flame">Notes</a>
         <% if (user && user.isPremium) { %>
-            <a href="/tarot">Tarot Guide</a>
-            <a href="/ai-tools">AI Tools</a>
+            <a href="/tarot" class="nav-flame">Tarot Guide</a>
+            <a href="/ai-tools" class="nav-flame">AI Tools</a>
+        <% } else { %>
+            <a href="/upgrade" class="nav-flame">Upgrade</a>
         <% } %>
+        <form action="/logout" method="POST" style="display: inline;">
+            <button type="submit" class="nav-flame">Logout</button>
+        </form>
     </nav>
-    <main>
+    <main class="slide-up">
+        <h2>Create Your Sermon</h2>
         <form action="/generate-sermon" method="POST">
             <label for="topic">Sermon Topic:</label>
-            <input type="text" id="topic" name="topic" required>
+            <input type="text" id="topic" name="topic" placeholder="e.g., Love, Forgiveness, Faith" required>
 
             <label for="scripture">Key Scripture:</label>
-            <input type="text" id="scripture" name="scripture" required>
+            <input type="text" id="scripture" name="scripture" placeholder="e.g., John 3:16" required>
 
-            <label for="audience">Audience:</label>
+            <label for="audience">Target Audience:</label>
             <select id="audience" name="audience">
-                <option value="congregation">Congregation</option>
+                <option value="congregation">General Congregation</option>
                 <option value="youth">Youth</option>
                 <option value="children">Children</option>
+                <option value="elderly">Elderly</option>
+                <option value="scholars">Scholars</option>
             </select>
 
-            <button type="submit">Generate Sermon</button>
+            <button type="submit">🔥 Generate Sermon</button>
         </form>
+
+        <div style="background: rgba(255, 248, 240, 0.9); padding: 2rem; margin-top: 3rem; border: 2px solid var(--dark-scroll); border-top: 4px solid var(--blood-red); text-align: center;">
+            <p style="margin: 0; font-weight: bold; font-size: 1.1rem; color: var(--blood-red);">✡ Rev. Chrissi D. Smith ✡</p>
+            <blockquote style="margin: 1rem 0; font-style: italic; line-height: 1.8; color: var(--text-dark); font-family: 'Crimson Text', serif; font-size: 1rem;">
+                "Belief is the human construct that allows for transformation within ourselves - Having faith can ultimate make or break a person. When the faith goes away, so does all life and creation. Have faith, don't follow blind, just don't give up and always think about something that is worth thinking about. Even if things don't go your way, be happy knowing you woke up today and you get to experience good. We all experience bad, but being alive means you experience both and you'll see just how everything changes when you believe."
+            </blockquote>
+        </div>
     </main>
+    <script src="/script.js"></script>
     <script type="module" src="/speed-insights-init.js"></script>
 </body>
 </html>

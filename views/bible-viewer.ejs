@@ -8,39 +8,61 @@
 </head>
 <body>
     <header>
-        <h1>Large Print Bible Viewer</h1>
+        <h1>𐤃𐤉𐤅𐤉</h1>
+        <p>Sacred Texts Viewer</p>
     </header>
     <nav>
         <a href="/">Home</a>
-        <a href="/sermon-generator">Sermon Generator</a>
-        <a href="/bible-viewer">Bible Viewer</a>
+        <% if (user) { %>
+            <a href="/sermon-generator" class="nav-orange-fire">Sermon Generator</a>
+        <% } %>
+        <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
+        <% if (user) { %>
+            <a href="/my-sermons" class="nav-flame">My Sermons</a>
+            <a href="/notes" class="nav-flame">Notes</a>
+            <% if (user.isPremium) { %>
+                <a href="/tarot" class="nav-flame">Tarot Guide</a>
+                <a href="/ai-tools" class="nav-flame">AI Tools</a>
+            <% } else { %>
+                <a href="/upgrade" class="nav-flame">Upgrade</a>
+            <% } %>
+            <form action="/logout" method="POST" style="display: inline;">
+                <button type="submit" class="nav-flame">Logout</button>
+            </form>
+        <% } else { %>
+            <a href="/login" class="nav-green-flame">Login</a>
+            <a href="/register" class="nav-green-flame">Register</a>
+        <% } %>
     </nav>
-    <main>
+    <main class="slide-up">
+        <h2>Divine Scripture Browser</h2>
+        <p>Access sacred texts from multiple spiritual traditions</p>
         <form action="/get-verse" method="POST">
-            <label for="religion">Religion:</label>
+            <label for="religion">Spiritual Tradition:</label>
             <select id="religion" name="religion" required>
                 <% religions.forEach(religion => { %>
                     <option value="<%= religion %>"><%= religion.charAt(0).toUpperCase() + religion.slice(1) %></option>
                 <% }); %>
             </select>
 
-            <label for="book">Book:</label>
+            <label for="book">Book/Section:</label>
             <select id="book" name="book" required>
-                <option value="genesis">Genesis</option>
+                <option value="genesis">Genesis / Creation</option>
                 <option value="quran">Quran</option>
                 <option value="wheel of the year">Wheel of the Year</option>
                 <option value="elements">Elements</option>
             </select>
 
             <label for="chapter">Chapter:</label>
-            <input type="number" id="chapter" name="chapter" min="1" required>
+            <input type="number" id="chapter" name="chapter" min="1" placeholder="1" required>
 
             <label for="verse">Verse:</label>
-            <input type="number" id="verse" name="verse" min="1" required>
+            <input type="number" id="verse" name="verse" min="1" placeholder="1" required>
 
-            <button type="submit">View Verse</button>
+            <button type="submit">📖 View Sacred Text</button>
         </form>
     </main>
+    <script src="/script.js"></script>
     <script type="module" src="/speed-insights-init.js"></script>
 </body>
 </html>

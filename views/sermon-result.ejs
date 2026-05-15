@@ -8,26 +8,30 @@
 </head>
 <body>
     <header>
-        <h1>Generated Sermon</h1>
+        <h1>𐤃𐤉𐤅𐤉</h1>
+        <p>Your Generated Sermon</p>
     </header>
     <nav>
         <a href="/">Home</a>
-        <a href="/sermon-generator">New Sermon</a>
-        <a href="/bible-viewer">Bible Viewer</a>
-        <a href="/my-sermons">My Sermons</a>
-        <a href="/notes">Notes</a>
+        <a href="/sermon-generator" class="nav-orange-fire">New Sermon</a>
+        <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
+        <a href="/my-sermons" class="nav-flame">My Sermons</a>
+        <a href="/notes" class="nav-flame">Notes</a>
         <% if (user && user.isPremium) { %>
-            <a href="/tarot">Tarot Guide</a>
-            <a href="/ai-tools">AI Tools</a>
+            <a href="/tarot" class="nav-flame">Tarot Guide</a>
+            <a href="/ai-tools" class="nav-flame">AI Tools</a>
         <% } %>
+        <form action="/logout" method="POST" style="display: inline;">
+            <button type="submit" class="nav-flame">Logout</button>
+        </form>
     </nav>
     <main class="slide-up">
-        <form action="/save-sermon" method="POST">
+        <form action="/save-sermon" method="POST" style="background: transparent; padding: 0; border: none; box-shadow: none; margin-bottom: 2rem;">
             <input type="hidden" name="title" value="<%= sermon.title %>">
             <input type="hidden" name="introduction" value="<%= sermon.introduction %>">
             <input type="hidden" name="mainPoints" value="<%= sermon.mainPoints.join('\n') %>">
             <input type="hidden" name="conclusion" value="<%= sermon.conclusion %>">
-            <button type="submit" class="save-btn">Save Sermon</button>
+            <button type="submit" style="width: 100%; background: linear-gradient(135deg, var(--fire-orange) 0%, var(--blood-red) 100%); margin: 0;">💾 Save This Sermon</button>
         </form>
         <article>
             <h2><%= sermon.title %></h2>
@@ -43,9 +47,10 @@
             <p><%= sermon.conclusion %></p>
         </article>
         <% if (user && user.isPremium) { %>
-            <a href="/edit-sermon/<%= sermon.id || 'new' %>" class="edit-btn">Edit Sermon</a>
+            <p style="text-align: center; margin-top: 2rem;"><a href="/edit-sermon/<%= sermon.id || 'new' %>" style="font-size: 1.1rem;">✏️ Edit Sermon (Premium)</a></p>
         <% } %>
     </main>
+    <script src="/script.js"></script>
     <script type="module" src="/speed-insights-init.js"></script>
 </body>
 </html>

@@ -3,30 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bible Verse - Divine Insights</title>
+    <title>Sacred Text Verse - Divine Insights</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <header>
-        <h1>Large Print Bible Verse</h1>
+        <h1>𐤃𐤉𐤅𐤉</h1>
+        <p>Sacred Scripture Display</p>
     </header>
     <nav>
         <a href="/">Home</a>
-        <a href="/sermon-generator">Sermon Generator</a>
-        <a href="/bible-viewer">Bible Viewer</a>
-        <a href="/my-sermons">My Sermons</a>
-        <a href="/notes">Notes</a>
-        <% if (user && user.isPremium) { %>
-            <a href="/tarot">Tarot Guide</a>
-            <a href="/ai-tools">AI Tools</a>
+        <% if (user) { %>
+            <a href="/sermon-generator" class="nav-orange-fire">Sermon Generator</a>
+            <a href="/my-sermons" class="nav-flame">My Sermons</a>
+            <a href="/notes" class="nav-flame">Notes</a>
+            <% if (user.isPremium) { %>
+                <a href="/tarot" class="nav-flame">Tarot Guide</a>
+                <a href="/ai-tools" class="nav-flame">AI Tools</a>
+            <% } else { %>
+                <a href="/upgrade" class="nav-flame">Upgrade</a>
+            <% } %>
+        <% } %>
+        <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
+        <% if (user) { %>
+            <form action="/logout" method="POST" style="display: inline;">
+                <button type="submit" class="nav-flame">Logout</button>
+            </form>
         <% } %>
     </nav>
-    <main>
+    <main class="slide-up">
         <div class="large-print">
             <p><strong><%= religion.charAt(0).toUpperCase() + religion.slice(1) %> - <%= book.charAt(0).toUpperCase() + book.slice(1) %> <%= chapter %>:<%= verse %></strong></p>
             <p class="verse-text"><%= text %></p>
         </div>
     </main>
+    <script src="/script.js"></script>
     <script type="module" src="/speed-insights-init.js"></script>
 </body>
 </html>

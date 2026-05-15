@@ -11,7 +11,9 @@ db.serialize(() => {
     username TEXT UNIQUE,
     password TEXT,
     email TEXT,
-    is_premium INTEGER DEFAULT 0
+    is_premium INTEGER DEFAULT 0,
+    premium_since DATETIME,
+    paypal_txn TEXT
   )`);
 
   db.run(`CREATE TABLE IF NOT EXISTS sermons (
@@ -30,6 +32,15 @@ db.serialize(() => {
     user_id INTEGER,
     title TEXT,
     content TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (id)
+  )`);
+
+  db.run(`CREATE TABLE IF NOT EXISTS daily_readings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    reading_type TEXT,
+    reading_data TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id)
   )`);

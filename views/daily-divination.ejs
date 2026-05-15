@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Divination - DiVi: The Belief Master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .divination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 400;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .button-secondary {
+            background: #f0f0f0;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .button-secondary:hover {
+            background: #e0e0e0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .reading-result {
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .reading-result.active {
+            display: block;
+        }
+
+        .card-name {
+            color: #764ba2;
+            font-weight: 700;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .card-meaning {
+            color: #555;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .card-interpretation {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-guidance {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 15px;
+            border-radius: 8px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .fortune-message {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-style: italic;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .divination-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .tab-buttons {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌟 Daily Divination</h1>
+            <p class="subtitle">Tarot • Oracle • Fortune for Insight & Guidance</p>
+        </header>
+
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="showTab('tarot', this)">Tarot Reading</button>
+            <button class="tab-btn" onclick="showTab('oracle', this)">Oracle Reading</button>
+            <button class="tab-btn" onclick="showTab('combo', this)">Full Divination</button>
+        </div>
+
+        <div class="divination-grid">
+            <!-- Tarot Card Reading -->
+            <div class="card" id="tarot-tab">
+                <h2>🃏 Daily Tarot Reading</h2>
+                <p style="color: #666; margin-bottom: 20px;">Draw a card for today's guidance. Optionally add a question and clarifier card.</p>
+                
+                <div class="form-group">
+                    <label for="tarot-question">Your Question (Optional)</label>
+                    <textarea id="tarot-question" placeholder="What guidance do you seek today?"></textarea>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="tarot-clarifier" checked>
+                    <label for="tarot-clarifier">Include Clarifier Card</label>
+                </div>
+
+                <button onclick="getTarotReading()">Draw My Card</button>
+
+                <div class="loading" id="tarot-loading">
+                    <div class="spinner"></div>
+                    <p>Reading your cards...</p>
+                </div>
+
+                <div class="reading-result" id="tarot-result">
+                    <div class="card-name" id="tarot-card-name"></div>
+                    <div class="card-meaning" id="tarot-card-meaning"></div>
+                    <div class="card-interpretation" id="tarot-interpretation"></div>
+                    <div class="card-guidance" id="tarot-guidance"></div>
+                </div>
+            </div>
+
+            <!-- Oracle Card Reading -->
+            <div class="card" id="oracle-tab" style="display: none;">
+                <h2>✨ Oracle Reading</h2>
+                <p style="color: #666; margin-bottom: 20px;">Receive guidance from diverse oracle decks.</p>
+                
+                <div class="form-group">
+                    <label for="oracle-deck">Select Oracle Deck</label>
+                    <select id="oracle-deck">
+                        <option value="default">Guided Oracle (Standard)</option>
+                        <option value="elemental">Elemental Oracle</option>
+                        <option value="chakra">Chakra Oracle</option>
+                        <option value="seasonal">Seasonal Oracle</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="oracle-question">Your Question (Optional)</label>
+                    <textarea id="oracle-question" placeholder="What guidance do you seek?"></textarea>
+                </div>
+
+                <button onclick="getOracleReading()">Draw Oracle Card</button>
+
+                <div class="loading" id="oracle-loading">
+                    <div class="spinner"></div>
+                    <p>Drawing your card...</p>
+                </div>
+
+                <div class="reading-result" id="oracle-result">
+                    <div class="card-name" id="oracle-card-name"></div>
+                    <div class="card-interpretation" id="oracle-interpretation"></div>
+                    <div class="card-guidance" id="oracle-guidance"></div>
+                </div>
+            </div>
+
+            <!-- Full Divination Combo -->
+            <div class="card" id="combo-tab" style="display: none;">
+                <h2>🔮 Complete Divination Reading</h2>
+                <p style="color: #666; margin-bottom: 20px;">Tarot + Oracle + Fortune in one complete reading.</p>
+                
+                <div class="form-group">
+                    <label for="combo-question">Your Central Question (Optional)</label>
+                    <textarea id="combo-question" placeholder="What is your primary focus for today?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="combo-oracle-deck">Oracle Deck</label>
+                    <select id="combo-oracle-deck">
+                        <option value="default">Guided Oracle (Standard)</option>
+                        <option value="elemental">Elemental Oracle</option>
+                        <option value="chakra">Chakra Oracle</option>
+                        <option value="seasonal">Seasonal Oracle</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="combo-clarifier" checked>
+                    <label for="combo-clarifier">Include Clarifier Tarot Card</label>
+                </div>
+
+                <button onclick="getComboReading()">Get Full Reading</button>
+
+                <div class="loading" id="combo-loading">
+                    <div class="spinner"></div>
+                    <p>Preparing your complete reading...</p>
+                </div>
+
+                <div class="reading-result" id="combo-result">
+                    <div style="margin-bottom: 25px;">
+                        <h3 style="color: #667eea; margin-bottom: 10px;">🃏 Tarot Guidance</h3>
+                        <div class="card-name" id="combo-tarot-card"></div>
+                        <div class="card-interpretation" id="combo-tarot-interp"></div>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <h3 style="color: #667eea; margin-bottom: 10px;">✨ Oracle Message</h3>
+                        <div class="card-name" id="combo-oracle-card"></div>
+                        <div class="card-guidance" id="combo-oracle-msg"></div>
+                    </div>
+
+                    <div>
+                        <h3 style="color: #667eea; margin-bottom: 10px;">🍪 Your Fortune</h3>
+                        <div class="fortune-message" id="combo-fortune"></div>
+                    </div>
+
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
+                        <h3 style="color: #764ba2; margin-bottom: 10px;">🌟 Overall Message</h3>
+                        <div style="color: #333; line-height: 1.6;" id="combo-message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="/beliefs" class="nav-link">📚 Explore Belief Systems</a>
+            <a href="/" class="nav-link">🏠 Home</a>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tab, button) {
+            // Hide all tabs
+            document.getElementById('tarot-tab').style.display = 'none';
+            document.getElementById('oracle-tab').style.display = 'none';
+            document.getElementById('combo-tab').style.display = 'none';
+
+            // Show selected tab
+            document.getElementById(tab + '-tab').style.display = 'block';
+
+            // Update button styling
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            if (button) {
+                button.classList.add('active');
+            }
+        }
+
+        async function getTarotReading() {
+            const question = document.getElementById('tarot-question').value;
+            const includeClarifier = document.getElementById('tarot-clarifier').checked;
+
+            document.getElementById('tarot-loading').classList.add('active');
+            document.getElementById('tarot-result').classList.remove('active');
+
+            try {
+                const response = await fetch('/api/daily-tarot', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question, includeClarifier })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    const { reading } = data;
+                    document.getElementById('tarot-card-name').textContent = reading.primaryCard.name;
+                    document.getElementById('tarot-card-meaning').textContent = reading.primaryCard.meaning;
+                    document.getElementById('tarot-interpretation').innerHTML = reading.interpretation;
+                    document.getElementById('tarot-guidance').innerHTML = reading.guidance;
+
+                    if (reading.clarifierCard) {
+                        document.getElementById('tarot-guidance').innerHTML += `<br><br><strong>Clarifier Card:</strong> ${reading.clarifierCard.name}<br>${reading.clarifierCard.meaning}`;
+                    }
+
+                    document.getElementById('tarot-result').classList.add('active');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error reading tarot cards. Please try again.');
+            } finally {
+                document.getElementById('tarot-loading').classList.remove('active');
+            }
+        }
+
+        async function getOracleReading() {
+            const question = document.getElementById('oracle-question').value;
+            const oracleDeck = document.getElementById('oracle-deck').value;
+
+            document.getElementById('oracle-loading').classList.add('active');
+            document.getElementById('oracle-result').classList.remove('active');
+
+            try {
+                const response = await fetch('/api/daily-oracle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question, oracleDeck })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    const { reading } = data;
+                    document.getElementById('oracle-card-name').textContent = reading.card.name;
+                    document.getElementById('oracle-interpretation').innerHTML = reading.personalInterpretation;
+                    document.getElementById('oracle-guidance').innerHTML = reading.card.guidance || reading.card.meaning;
+
+                    document.getElementById('oracle-result').classList.add('active');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error reading oracle cards. Please try again.');
+            } finally {
+                document.getElementById('oracle-loading').classList.remove('active');
+            }
+        }
+
+        async function getComboReading() {
+            const question = document.getElementById('combo-question').value;
+            const oracleDeck = document.getElementById('combo-oracle-deck').value;
+            const includeClarifier = document.getElementById('combo-clarifier').checked;
+
+            document.getElementById('combo-loading').classList.add('active');
+            document.getElementById('combo-result').classList.remove('active');
+
+            try {
+                const response = await fetch('/api/daily-combo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question, oracleDeck, includeClarifier })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    const { combo } = data;
+                    
+                    // Tarot
+                    document.getElementById('combo-tarot-card').textContent = combo.tarotReading.primaryCard.name;
+                    document.getElementById('combo-tarot-interp').innerHTML = combo.tarotReading.interpretation;
+
+                    // Oracle
+                    document.getElementById('combo-oracle-card').textContent = combo.oracleReading.card.name;
+                    document.getElementById('combo-oracle-msg').innerHTML = combo.oracleReading.card.guidance || combo.oracleReading.card.meaning;
+
+                    // Fortune
+                    document.getElementById('combo-fortune').textContent = combo.dailyFortune;
+
+                    // Overall message
+                    document.getElementById('combo-message').textContent = combo.overallMessage;
+
+                    document.getElementById('combo-result').classList.add('active');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error generating reading. Please try again.');
+            } finally {
+                document.getElementById('combo-loading').classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
