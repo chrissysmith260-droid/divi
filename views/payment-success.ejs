@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Divine Insights</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>𐤃𐤉𐤅𐤉</h1>
+        <p>Welcome to Premium</p>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/sermon-generator" class="nav-orange-fire">Sermon Generator</a>
+        <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
+        <a href="/my-sermons" class="nav-flame">My Sermons</a>
+        <a href="/notes" class="nav-flame">Notes</a>
+        <a href="/tarot" class="nav-flame">Tarot Guide</a>
+        <a href="/ai-tools" class="nav-flame">AI Tools</a>
+        <form action="/logout" method="POST" style="display: inline;">
+            <button type="submit" class="nav-flame">Logout</button>
+        </form>
+    </nav>
+    <main class="slide-up">
+        <div style="text-align: center; background: rgba(50, 205, 50, 0.1); padding: 3rem; border: 3px solid var(--blood-red); margin: 2rem 0;">
+            <h2 style="color: var(--blood-red); font-size: 2.5rem;">✡ Payment Successful ✡</h2>
+            <p style="font-size: 1.2rem; margin: 1rem 0;">Congratulations! Your Premium Membership is now active.</p>
+            <p style="font-size: 0.95rem; color: var(--text-dark);">Transaction ID: <strong><%= orderID %></strong></p>
+        </div>
+
+        <div style="background: rgba(255, 248, 240, 0.95); padding: 2rem; border: 2px solid var(--dark-scroll); margin: 2rem 0;">
+            <h3>Your Premium Features Unlocked:</h3>
+            <ul style="font-size: 1.1rem; line-height: 2;">
+                <li>✅ Advanced sermon editing and customization tools</li>
+                <li>✅ AI-powered content generation</li>
+                <li>✅ Complete Tarot guide with all 78 cards</li>
+                <li>✅ Extended religious texts library</li>
+                <li>✅ Priority support and community access</li>
+                <li>✅ Unlimited notes and sermon storage</li>
+                <li>✅ Premium templates and formatting options</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <h3 style="margin-bottom: 1rem;">Get Started with Your Premium Features:</h3>
+            <a href="/sermon-generator" style="display: inline-block; background: linear-gradient(135deg, var(--fire-orange) 0%, var(--blood-red) 100%); color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 4px; font-weight: bold; margin: 0.5rem; border: 2px solid var(--text-dark); font-size: 1.1rem;">
+                🔥 Generate a Sermon
+            </a>
+            <a href="/tarot" style="display: inline-block; background: linear-gradient(135deg, var(--blue-flame) 0%, var(--blood-red) 100%); color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 4px; font-weight: bold; margin: 0.5rem; border: 2px solid var(--text-dark); font-size: 1.1rem;">
+                🃏 Explore Tarot
+            </a>
+            <a href="/ai-tools" style="display: inline-block; background: linear-gradient(135deg, var(--blood-red) 0%, var(--wine-red) 100%); color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 4px; font-weight: bold; margin: 0.5rem; border: 2px solid var(--text-dark); font-size: 1.1rem;">
+                🤖 Try AI Tools
+            </a>
+        </div>
+
+        <div style="background: rgba(220, 20, 60, 0.1); padding: 1.5rem; margin-top: 2rem; border-left: 4px solid var(--blood-red);">
+            <p style="margin: 0; font-size: 0.95rem;"><strong>📧 Confirmation Email:</strong> A confirmation email with your payment receipt and account details has been sent to your email address. Please check your inbox and spam folder.</p>
+        </div>
+
+        <p style="text-align: center; margin-top: 2rem;"><a href="/" style="font-size: 1rem;">← Return to Home</a></p>
+    </main>
+    <script src="/script.js"></script>
+</body>
+</html>

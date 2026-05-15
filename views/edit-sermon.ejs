@@ -8,34 +8,41 @@
 </head>
 <body>
     <header>
-        <h1>Edit Sermon</h1>
+        <h1>𐤃𐤉𐤅𐤉</h1>
+        <p>Refine Your Sermon</p>
     </header>
     <nav>
         <a href="/">Home</a>
-        <a href="/my-sermons">My Sermons</a>
-        <a href="/bible-viewer">Bible Viewer</a>
-        <a href="/notes">Notes</a>
+        <a href="/sermon-generator" class="nav-orange-fire">New Sermon</a>
+        <a href="/my-sermons" class="nav-flame">My Sermons</a>
+        <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
+        <a href="/notes" class="nav-flame">Notes</a>
         <% if (user && user.isPremium) { %>
-            <a href="/tarot">Tarot Guide</a>
-            <a href="/ai-tools">AI Tools</a>
+            <a href="/tarot" class="nav-flame">Tarot Guide</a>
+            <a href="/ai-tools" class="nav-flame">AI Tools</a>
         <% } %>
+        <form action="/logout" method="POST" style="display: inline;">
+            <button type="submit" class="nav-flame">Logout</button>
+        </form>
     </nav>
     <main class="slide-up">
+        <h2>Edit Sermon</h2>
         <form action="/update-sermon/<%= sermon.id %>" method="POST">
-            <label for="title">Title:</label>
+            <label for="title">Sermon Title:</label>
             <input type="text" id="title" name="title" value="<%= sermon.title %>" required>
 
             <label for="introduction">Introduction:</label>
-            <textarea id="introduction" name="introduction" required><%= sermon.introduction %></textarea>
+            <textarea id="introduction" name="introduction" placeholder="Begin your sermon with an engaging introduction..." required><%= sermon.introduction %></textarea>
 
             <label for="mainPoints">Main Points (one per line):</label>
-            <textarea id="mainPoints" name="mainPoints" required><%= sermon.mainPoints %></textarea>
+            <textarea id="mainPoints" name="mainPoints" placeholder="List each main point on a new line..." required><%= sermon.mainPoints %></textarea>
 
             <label for="conclusion">Conclusion:</label>
-            <textarea id="conclusion" name="conclusion" required><%= sermon.conclusion %></textarea>
+            <textarea id="conclusion" name="conclusion" placeholder="Conclude with a powerful call to action or reflection..." required><%= sermon.conclusion %></textarea>
 
-            <button type="submit">Update Sermon</button>
+            <button type="submit">💾 Update Sermon</button>
         </form>
     </main>
+    <script src="/script.js"></script>
 </body>
 </html>

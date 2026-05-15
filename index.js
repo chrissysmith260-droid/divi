@@ -4,6 +4,10 @@ const SQLiteStore = require('connect-sqlite3')(session);
 const bcrypt = require('bcrypt');
 const db = require('./db');
 const tarotCards = require('./tarot');
+const beliefSystems = require('./belief-systems');
+const oracleCards = require('./oracle-cards');
+const fortuneMessages = require('./fortune-messages');
+const divinationService = require('./premium-divination-service');
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -240,6 +244,313 @@ app.get('/upgrade', (req, res) => {
   res.render('upgrade', { user: req.session.userId ? { id: req.session.userId, isPremium: req.session.isPremium } : null });
 });
 
+// PayPal Configuration
+// Username: @CSVtv1997
+// Payment processing for premium membership
+const PAYPAL_USERNAME = '@CSVtv1997';
+const PAYPAL_EMAIL = 'CSVtv1997@paypal.com'; // You'll need to verify this email
+
+// PayPal Payment Success Route
+app.get('/payment-success', requireLogin, (req, res) => {
+  const { orderID } = req.query;
+  
+  if (!orderID) {
+    return res.render('upgrade', { 
+      message: 'Payment verification failed. Please contact support.',
+      user: { id: req.session.userId, isPremium: req.session.isPremium }
+    });
+  }
+
+  // Update user to premium status in database
+  db.run(
+    'UPDATE users SET is_premium = 1, premium_since = datetime(\'now\') WHERE id = ?',
+    [req.session.userId],
+    function(err) {
+      if (err) {
+        console.error('Error updating premium status:', err);
+        return res.render('upgrade', { 
+          message: 'Payment processed but there was an error activating premium. Please contact support.',
+          user: { id: req.session.userId, isPremium: req.session.isPremium }
+        });
+      }
+
+      // Update session
+      req.session.isPremium = 1;
+      
+      // Render success page
+      res.render('payment-success', { 
+        user: { id: req.session.userId, isPremium: 1 },
+        orderID: orderID
+      });
+    }
+  );
+});
+
+// Payment Webhook Handler (for IPN - Instant Payment Notification from PayPal)
+app.post('/paypal-webhook', express.urlencoded({ extended: true }), (req, res) => {
+  const { txn_id, receiver_email, payment_status, custom } = req.body;
+  
+  // Verify this is from PayPal
+  if (receiver_email !== PAYPAL_EMAIL && !receiver_email?.includes(PAYPAL_USERNAME)) {
+    console.warn('Webhook received from unverified PayPal email:', receiver_email);
+    return res.status(403).send('Forbidden');
+  }
+
+  if (payment_status === 'Completed') {
+    const userId = custom; // You can pass user ID in the 'custom' parameter
+    
+    // Update database with successful payment
+    db.run(
+      'UPDATE users SET is_premium = 1, premium_since = datetime(\'now\'), paypal_txn = ? WHERE id = ?',
+      [txn_id, userId],
+      function(err) {
+        if (err) {
+          console.error('Error processing payment webhook:', err);
+          return res.status(500).send('Error processing payment');
+        }
+        res.status(200).send('OK');
+      }
+    );
+  } else {
+    res.status(200).send('Payment not completed');
+  }
+});
+
+// ============================================================================
+// PREMIUM DIVINATION ROUTES (Tarot, Oracle, Fortune)
+// ============================================================================
+
+// Initialize divination service with database
+divinationService.initializeDatabase(db);
+
+/**
+ * GET /daily-divination
+ * Display daily divination page (premium)
+ */
+app.get('/daily-divination', requireLogin, requirePremium, (req, res) => {
+  const oracleDecks = divinationService.getAvailableOracleDecks();
+  const fortuneCategories = divinationService.getFortuneCategories();
+  
+  res.render('daily-divination', {
+    user: { id: req.session.userId, isPremium: req.session.isPremium },
+    oracleDecks,
+    fortuneCategories
+  });
+});
+
+/**
+ * POST /api/daily-tarot
+ * Generate daily tarot reading with optional clarifier
+ */
+app.post('/api/daily-tarot', requireLogin, requirePremium, (req, res) => {
+  const { question, includeClarifier } = req.body;
+  
+  const reading = divinationService.getDailyTarotReading(
+    req.session.userId,
+    question || null,
+    includeClarifier === 'true' || includeClarifier === true
+  );
+
+  // Save reading to database
+  divinationService.saveDailyReading(req.session.userId, {
+    ...reading,
+    type: 'tarot'
+  });
+
+  res.json({
+    success: true,
+    reading
+  });
+});
+
+/**
+ * POST /api/daily-oracle
+ * Generate oracle card reading
+ */
+app.post('/api/daily-oracle', requireLogin, requirePremium, (req, res) => {
+  const { question, oracleDeck } = req.body;
+
+  const reading = divinationService.getOracleCardReading(
+    req.session.userId,
+    question || null,
+    oracleDeck || 'default'
+  );
+
+  // Save reading to database
+  divinationService.saveDailyReading(req.session.userId, {
+    ...reading,
+    type: 'oracle'
+  });
+
+  res.json({
+    success: true,
+    reading
+  });
+});
+
+/**
+ * POST /api/daily-combo
+ * Get combined reading (Tarot + Oracle + Fortune)
+ */
+app.post('/api/daily-combo', requireLogin, requirePremium, (req, res) => {
+  const { question, includeClarifier, oracleDeck } = req.body;
+
+  const combo = divinationService.getDailyDivinationCombo(
+    req.session.userId,
+    {
+      question: question || null,
+      includeClarifier: includeClarifier !== 'false' && includeClarifier !== false,
+      oracleDeck: oracleDeck || 'default'
+    }
+  );
+
+  // Save combo reading to database
+  divinationService.saveDailyReading(req.session.userId, {
+    ...combo,
+    type: 'combo'
+  });
+
+  res.json({
+    success: true,
+    combo
+  });
+});
+
+/**
+ * GET /api/daily-fortune
+ * Get a random fortune message
+ */
+app.get('/api/daily-fortune', requireLogin, requirePremium, (req, res) => {
+  const { category } = req.query;
+  const fortune = divinationService.getRandomFortune(category || null);
+
+  res.json({
+    success: true,
+    fortune,
+    category: category || 'random'
+  });
+});
+
+/**
+ * GET /api/divination/oracle-decks
+ * Get available oracle decks
+ */
+app.get('/api/divination/oracle-decks', requireLogin, requirePremium, (req, res) => {
+  const decks = divinationService.getAvailableOracleDecks();
+  res.json({
+    success: true,
+    decks
+  });
+});
+
+/**
+ * GET /api/divination/fortune-categories
+ * Get fortune categories
+ */
+app.get('/api/divination/fortune-categories', requireLogin, requirePremium, (req, res) => {
+  const categories = divinationService.getFortuneCategories();
+  res.json({
+    success: true,
+    categories
+  });
+});
+
+/**
+ * GET /api/divination/history
+ * Get user's reading history
+ */
+app.get('/api/divination/history', requireLogin, requirePremium, async (req, res) => {
+  const { limit } = req.query;
+  const history = await divinationService.getUserReadingHistory(
+    req.session.userId,
+    parseInt(limit) || 30
+  );
+
+  res.json({
+    success: true,
+    history
+  });
+});
+
+// ============================================================================
+// BELIEF SYSTEMS ROUTES
+// ============================================================================
+
+/**
+ * GET /beliefs
+ * Display all belief systems
+ */
+app.get('/beliefs', (req, res) => {
+  const beliefList = Object.keys(beliefSystems).map(key => ({
+    id: key,
+    name: beliefSystems[key].name,
+    region: beliefSystems[key].region,
+    followers: beliefSystems[key].followers,
+    founded: beliefSystems[key].founded
+  }));
+
+  res.render('beliefs-index', {
+    beliefs: beliefList,
+    user: req.session.userId ? { id: req.session.userId, isPremium: req.session.isPremium } : null
+  });
+});
+
+/**
+ * GET /beliefs/:belief
+ * Display specific belief system details
+ */
+app.get('/beliefs/:belief', (req, res) => {
+  const beliefId = req.params.belief.toLowerCase();
+  const belief = beliefSystems[beliefId];
+
+  if (!belief) {
+    return res.status(404).render('error', {
+      message: 'Belief system not found',
+      user: req.session.userId ? { id: req.session.userId, isPremium: req.session.isPremium } : null
+    });
+  }
+
+  res.render('belief-detail', {
+    belief,
+    beliefId,
+    user: req.session.userId ? { id: req.session.userId, isPremium: req.session.isPremium } : null
+  });
+});
+
+/**
+ * GET /api/beliefs
+ * Get all beliefs as JSON
+ */
+app.get('/api/beliefs', (req, res) => {
+  res.json({
+    success: true,
+    beliefs: beliefSystems
+  });
+});
+
+/**
+ * GET /api/beliefs/:belief
+ * Get specific belief system as JSON
+ */
+app.get('/api/beliefs/:belief', (req, res) => {
+  const beliefId = req.params.belief.toLowerCase();
+  const belief = beliefSystems[beliefId];
+
+  if (!belief) {
+    return res.status(404).json({
+      success: false,
+      error: 'Belief system not found'
+    });
+  }
+
+  res.json({
+    success: true,
+    belief
+  });
+});
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
+  console.log(`PayPal Account: ${PAYPAL_USERNAME}`);
+  console.log(`Premium Feature: Users can now upgrade via PayPal`);
 });

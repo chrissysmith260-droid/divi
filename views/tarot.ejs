@@ -8,15 +8,20 @@
 </head>
 <body>
     <header>
-        <h1>Tarot Guide</h1>
+        <h1>𐤃𐤉𐤅𐤉</h1>
+        <p>Mystical Tarot Guide</p>
     </header>
     <nav>
         <a href="/">Home</a>
-        <a href="/sermon-generator">Sermon Generator</a>
-        <a href="/bible-viewer">Bible Viewer</a>
-        <a href="/my-sermons">My Sermons</a>
-        <a href="/notes">Notes</a>
-        <a href="/ai-tools">AI Tools</a>
+        <a href="/sermon-generator" class="nav-orange-fire">Sermon Generator</a>
+        <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
+        <a href="/my-sermons" class="nav-flame">My Sermons</a>
+        <a href="/notes" class="nav-flame">Notes</a>
+        <a href="/tarot" class="nav-flame">Tarot Guide</a>
+        <a href="/ai-tools" class="nav-flame">AI Tools</a>
+        <form action="/logout" method="POST" style="display: inline;">
+            <button type="submit" class="nav-flame">Logout</button>
+        </form>
     </nav>
     <main class="slide-up">
         <h2>Major Arcana</h2>
@@ -69,5 +74,6 @@
             <% }); %>
         </div>
     </main>
+    <script src="/script.js"></script>
 </body>
 </html>

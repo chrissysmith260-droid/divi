@@ -8,39 +8,39 @@
 </head>
 <body>
     <header class="fade-in">
-        <h1>Divine Insights</h1>
+        <h1>𐤃𐤉𐤅𐤉</h1>
         <p>A tool for clergy, pastors, and lay persons to generate sermons and study sacred texts.</p>
         <% if (user) { %>
-            <p>Welcome, User! <%= user.isPremium ? '(Premium Member)' : '(Free Member)' %></p>
+            <p>Welcome! <%= user.isPremium ? '✡ Premium Member ✡' : 'Member' %></p>
         <% } %>
     </header>
     <nav>
         <a href="/">Home</a>
         <% if (user) { %>
-            <a href="/sermon-generator">Sermon Generator</a>
-            <a href="/bible-viewer">Bible Viewer</a>
-            <a href="/my-sermons">My Sermons</a>
-            <a href="/notes">Notes</a>
+            <a href="/sermon-generator" class="nav-orange-fire">Sermon Generator</a>
+            <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
+            <a href="/my-sermons" class="nav-flame">My Sermons</a>
+            <a href="/notes" class="nav-flame">Notes</a>
             <% if (user.isPremium) { %>
-                <a href="/tarot">Tarot Guide</a>
-                <a href="/ai-tools">AI Tools</a>
+                <a href="/tarot" class="nav-flame">Tarot Guide</a>
+                <a href="/ai-tools" class="nav-flame">AI Tools</a>
             <% } else { %>
-                <a href="/upgrade">Upgrade to Premium</a>
+                <a href="/upgrade" class="nav-flame">Upgrade to Premium</a>
             <% } %>
             <form action="/logout" method="POST" style="display: inline;">
-                <button type="submit">Logout</button>
+                <button type="submit" class="nav-flame">Logout</button>
             </form>
         <% } else { %>
-            <a href="/login">Login</a>
-            <a href="/register">Register</a>
-            <a href="/bible-viewer">Bible Viewer</a>
+            <a href="/login" class="nav-green-flame">Login</a>
+            <a href="/register" class="nav-green-flame">Register</a>
+            <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
         <% } %>
     </nav>
     <main class="slide-up">
         <section>
-            <h2>Welcome</h2>
-            <p>This app helps you create sermons and access sacred texts from various religions including Christianity, Judaism, Islam, and Paganism.</p>
-            <p>Features:</p>
+            <h2>Welcome to Divine Insights</h2>
+            <p>This premium application helps you create sermons and access sacred texts from various traditions including Christianity, Judaism, Islam, and Paganism.</p>
+            <p><strong>Features:</strong></p>
             <ul>
                 <li>Sermon generation with customizable topics and scriptures</li>
                 <li>Large print bible viewer for easy reading</li>
@@ -52,11 +52,24 @@
                 <p><a href="/register">Register</a> or <a href="/login">login</a> to access all features!</p>
             <% } %>
         </section>
+
+        <footer style="background: rgba(220, 20, 60, 0.08); padding: 2rem; margin-top: 3rem; border: 2px dashed var(--dark-scroll); border-top: 3px solid var(--blood-red);">
+            <h3 style="margin-top: 0; color: var(--blood-red); font-size: 1.2rem;">⚠️ Important Disclaimer</h3>
+            <p style="font-size: 0.95rem; line-height: 1.7; color: var(--text-dark); margin: 0;">
+                All texts and all information/resources are not here to claim false pretenses such as whatever mandated or lawful set of injustices it proclaims within the text. All tarot readings done using the tarot resource are solely done at your discretion and you are responsible for any meaning or message given to you. We hold no accountability for anything said or shown to anyone through the app.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.7; color: var(--text-dark); margin: 1rem 0 0 0;">
+                <strong>Please don't use anything here for financial advice, legal advice, or personal conflict unless you are ready to be responsible for any damages caused.</strong>
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.7; color: var(--text-dark); margin: 1rem 0 0 0;">
+                Any questions, comments or concerns email <strong>Rev. Chrissi D. Smith</strong> at <a href="mailto:chrissysmith260@gmail.com" style="color: var(--blood-red); font-weight: bold;">chrissysmith260@gmail.com</a>
+            </p>
+        </footer>
     </main>
     <audio id="background-music" loop>
         <source src="/background.mp3" type="audio/mpeg">
     </audio>
-    <button onclick="toggleMusic()">Toggle Background Music</button>
+    <button onclick="toggleMusic()" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">🔊 Music</button>
     <script src="/script.js"></script>
 </body>
 </html>

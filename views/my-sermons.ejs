@@ -8,19 +8,27 @@
 </head>
 <body>
     <header>
-        <h1>My Sermons</h1>
+        <h1>𐤃𐤉𐤅𐤉</h1>
+        <p>Your Sermon Archive</p>
     </header>
     <nav>
         <a href="/">Home</a>
-        <a href="/sermon-generator">New Sermon</a>
-        <a href="/bible-viewer">Bible Viewer</a>
-        <a href="/notes">Notes</a>
+        <a href="/sermon-generator" class="nav-orange-fire">New Sermon</a>
+        <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
+        <a href="/my-sermons" class="nav-flame">My Sermons</a>
+        <a href="/notes" class="nav-flame">Notes</a>
         <% if (user && user.isPremium) { %>
-            <a href="/tarot">Tarot Guide</a>
-            <a href="/ai-tools">AI Tools</a>
+            <a href="/tarot" class="nav-flame">Tarot Guide</a>
+            <a href="/ai-tools" class="nav-flame">AI Tools</a>
+        <% } else { %>
+            <a href="/upgrade" class="nav-flame">Upgrade</a>
         <% } %>
+        <form action="/logout" method="POST" style="display: inline;">
+            <button type="submit" class="nav-flame">Logout</button>
+        </form>
     </nav>
     <main class="slide-up">
+        <h2>Your Sermon Library</h2>
         <% if (sermons.length === 0) { %>
             <p>You haven't saved any sermons yet. <a href="/sermon-generator">Generate one now!</a></p>
         <% } else { %>
@@ -29,11 +37,12 @@
                     <li>
                         <h3><%= sermon.title %></h3>
                         <p>Created: <%= new Date(sermon.created_at).toLocaleDateString() %></p>
-                        <a href="/edit-sermon/<%= sermon.id %>">Edit</a>
+                        <a href="/edit-sermon/<%= sermon.id %>">✏️ Edit</a>
                     </li>
                 <% }); %>
             </ul>
         <% } %>
     </main>
+    <script src="/script.js"></script>
 </body>
 </html>

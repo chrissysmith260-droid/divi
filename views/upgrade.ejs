@@ -5,33 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upgrade to Premium - Divine Insights</title>
     <link rel="stylesheet" href="/styles.css">
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
 </head>
 <body>
     <header>
-        <h1>Upgrade to Premium</h1>
+        <h1>𐤃𐤉𐤅𐤉</h1>
+        <p>Unlock Premium Features</p>
     </header>
     <nav>
         <a href="/">Home</a>
         <% if (user) { %>
-            <a href="/sermon-generator">Sermon Generator</a>
-            <a href="/bible-viewer">Bible Viewer</a>
+            <a href="/sermon-generator" class="nav-orange-fire">Sermon Generator</a>
+            <a href="/bible-viewer" class="nav-flame">Bible Viewer</a>
         <% } %>
     </nav>
     <main class="slide-up">
         <% if (typeof message !== 'undefined') { %>
-            <p style="color: red;"><%= message %></p>
+            <p style="color: var(--blood-red); font-weight: bold;"><%= message %></p>
         <% } %>
         <h2>Premium Membership Benefits</h2>
-        <ul>
-            <li>Advanced sermon editing tools</li>
-            <li>AI-powered content generation</li>
-            <li>Complete Tarot guide with all 78 cards</li>
-            <li>Extended religious texts library</li>
-            <li>Priority support</li>
-        </ul>
-        <p>Upgrade now for $9.99/month!</p>
-        <button onclick="alert('Payment integration would go here - Stripe, PayPal, etc.')">Upgrade Now</button>
-        <p><em>Note: This is a placeholder. In a real app, integrate with a payment processor.</em></p>
+        <p style="font-size: 1.1rem; text-align: center; font-style: italic;">Enhance your spiritual journey with exclusive premium features</p>
+        
+        <div style="background: rgba(255, 248, 240, 0.9); padding: 2rem; margin: 2rem 0; border: 2px solid var(--dark-scroll); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <h3>What's Included:</h3>
+            <ul>
+                <li>✡ Advanced sermon editing and customization tools</li>
+                <li>🤖 AI-powered content generation for unique sermons</li>
+                <li>🃏 Complete Tarot guide with all 78 cards and interpretations</li>
+                <li>📖 Extended religious texts library (Tanakh, Quran, Vedas, and more)</li>
+                <li>⭐ Priority support and community access</li>
+                <li>📝 Unlimited notes and sermon storage</li>
+                <li>🎨 Premium templates and formatting options</li>
+            </ul>
+        </div>
+
+        <h3 style="text-align: center; font-size: 2rem; color: var(--blood-red);">$9.99 / Month</h3>
+        <p style="text-align: center; font-size: 0.9rem; font-style: italic;">Cancel anytime, no long-term commitment required</p>
+
+        <!-- PayPal Container -->
+        <div id="paypal-button-container" style="margin: 2rem 0; text-align: center;"></div>
+
+        <!-- Alternative: Direct PayPal Link -->
+        <div style="text-align: center; margin-top: 2rem;">
+            <p style="margin-bottom: 1rem;">Or pay securely via PayPal:</p>
+            <a href="https://www.paypal.com/paypalme/CSVtv1997/9.99" 
+               style="display: inline-block; background: linear-gradient(135deg, #0070BA 0%, #003087 100%); 
+                      color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 4px; 
+                      font-weight: bold; margin: 0.5rem; cursor: pointer; border: 2px solid var(--text-dark);
+                      transition: all 0.3s ease;"
+               onmouseover="this.style.boxShadow='0 8px 15px rgba(0,0,0,0.3)'; this.style.transform='translateY(-3px)';"
+               onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+                💳 Pay with PayPal Now
+            </a>
+        </div>
+
+        <div style="background: rgba(220, 20, 60, 0.1); padding: 1.5rem; margin-top: 2rem; border-left: 4px solid var(--blood-red);">
+            <p style="margin: 0; font-size: 0.95rem;"><strong>🔒 Secure Payment:</strong> Your payment information is processed securely through PayPal. We never store your payment details.</p>
+        </div>
+
+        <p style="text-align: center; margin-top: 2rem;"><a href="/" style="font-size: 1rem;">← Back to Home</a></p>
     </main>
+
+    <script>
+        // PayPal Button Setup
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '9.99',
+                            currency_code: 'USD'
+                        },
+                        description: 'Divine Insights Premium Monthly Membership'
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(orderData) {
+                    // Redirect to payment success page or update database
+                    window.location.href = '/payment-success?orderID=' + orderData.id;
+                });
+            },
+            onError: function(err) {
+                console.error('PayPal Error:', err);
+                alert('An error occurred during the transaction. Please try again.');
+            }
+        }).render('#paypal-button-container');
+    </script>
+    <script src="/script.js"></script>
 </body>
 </html>

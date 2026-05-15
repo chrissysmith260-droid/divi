@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Beliefs & Religions - DiVi: The Belief Master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            font-size: 1.05em;
+            opacity: 0.85;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-box {
+            margin-bottom: 40px;
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            background: white;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+        }
+
+        .beliefs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .belief-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        .belief-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .belief-name {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .belief-emoji {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .belief-info {
+            font-size: 0.95em;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .belief-info p {
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #764ba2;
+        }
+
+        .info-value {
+            color: #555;
+        }
+
+        .category-section {
+            margin-bottom: 50px;
+        }
+
+        .category-title {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .back-link {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .no-results {
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .beliefs-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Home</a>
+
+        <header>
+            <h1>📚 World Beliefs & Religions</h1>
+            <p class="subtitle">Explore the Rich Diversity of Global Spirituality</p>
+            <p class="description">
+                Discover the teachings, practices, and cultural wisdom of religions and spiritual traditions from around the world. 
+                Each path offers unique insights into humanity's search for meaning, connection, and transcendence.
+            </p>
+        </header>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search beliefs...">
+        </div>
+
+        <!-- Abrahamic Traditions -->
+        <div class="category-section" id="abrahamic-section">
+            <h2 class="category-title">🕌 Abrahamic Traditions</h2>
+            <div class="beliefs-grid" id="abrahamic-grid"></div>
+        </div>
+
+        <!-- Eastern Religions -->
+        <div class="category-section" id="eastern-section">
+            <h2 class="category-title">🏯 Eastern & Asian Traditions</h2>
+            <div class="beliefs-grid" id="eastern-grid"></div>
+        </div>
+
+        <!-- Ancient Traditions -->
+        <div class="category-section" id="ancient-section">
+            <h2 class="category-title">🏛️ Ancient Mediterranean Traditions</h2>
+            <div class="beliefs-grid" id="ancient-grid"></div>
+        </div>
+
+        <!-- Indigenous & Earth-Based -->
+        <div class="category-section" id="indigenous-section">
+            <h2 class="category-title">🌍 Indigenous & Earth-Based Traditions</h2>
+            <div class="beliefs-grid" id="indigenous-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        const beliefs = <%- JSON.stringify(beliefs) %>;
+
+        const categories = {
+            abrahamic: ['christian', 'jewish', 'islamic'],
+            eastern: ['hinduism', 'buddhism', 'sikhism', 'jainism', 'taoism', 'confucianism', 'shinto'],
+            ancient: ['greekReligion', 'romanReligion', 'egyptianReligion', 'celticReligion'],
+            indigenous: ['nativeAmerican', 'africanTraditional']
+        };
+
+        const emojis = {
+            christian: '✝️',
+            jewish: '🕎',
+            islamic: '🕌',
+            hinduism: '🙏',
+            buddhism: '☸️',
+            sikhism: '🧧',
+            jainism: '☬',
+            taoism: '☯️',
+            confucianism: '📖',
+            shinto: '⛩️',
+            greekReligion: '⚡',
+            romanReligion: '🦅',
+            egyptianReligion: '🏛️',
+            celticReligion: '🍀',
+            nativeAmerican: '🦅',
+            africanTraditional: '🥁'
+        };
+
+        function createBeliefCard(belief) {
+            const id = Object.keys(beliefs).find(key => beliefs[key].name === belief.name);
+            return `
+                <a href="/beliefs/${id}" class="belief-card">
+                    <div class="belief-emoji">${emojis[id] || '✨'}</div>
+                    <div class="belief-name">${belief.name}</div>
+                    <div class="belief-info">
+                        <p><span class="info-label">Region:</span> <span class="info-value">${belief.region}</span></p>
+                        <p><span class="info-label">Followers:</span> <span class="info-value">${belief.followers}</span></p>
+                        <p><span class="info-label">Founded:</span> <span class="info-value">${belief.founded}</span></p>
+                    </div>
+                </a>
+            `;
+        }
+
+        function populateBeliefs() {
+            for (const [category, ids] of Object.entries(categories)) {
+                const grid = document.getElementById(`${category}-grid`);
+                if (grid) {
+                    grid.innerHTML = ids
+                        .filter(id => beliefs[id])
+                        .map(id => createBeliefCard(beliefs[id]))
+                        .join('');
+                }
+            }
+        }
+
+        function filterBeliefs(query) {
+            const searchTerm = query.toLowerCase();
+            document.querySelectorAll('.belief-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.parentElement.style.display = text.includes(searchTerm) ? 'block' : 'none';
+            });
+
+            // Hide empty sections
+            document.querySelectorAll('.category-section').forEach(section => {
+                const visibleCards = section.querySelectorAll('.belief-card:not(.hidden)');
+                const actuallyVisible = Array.from(section.querySelectorAll('.belief-card')).filter(
+                    card => card.parentElement.style.display !== 'none'
+                ).length;
+                section.style.display = actuallyVisible > 0 ? 'block' : 'none';
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            filterBeliefs(e.target.value);
+        });
+
+        // Initialize
+        populateBeliefs();
+    </script>
+</body>
+</html>
